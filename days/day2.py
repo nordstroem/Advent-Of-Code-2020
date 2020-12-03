@@ -4,6 +4,7 @@ import functools
 
 all_lines = util.read_lines("inputs/day2.txt")
 
+
 def parse(string):
     (low, high, character, password) = string.replace(":", "").replace("-", " ").split(" ")
     return (int(low), int(high), character, password)

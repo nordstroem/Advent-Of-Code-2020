@@ -2,6 +2,7 @@ import util
 
 all_lines = util.read_file("inputs/day4.txt")
 
+
 def parse(batch):
     passport = {}
     for prop in batch.replace(" ", "\n").split("\n"):
@@ -9,7 +10,9 @@ def parse(batch):
         passport[field] = value
     return passport
 
+
 entries = map(parse, all_lines.strip().split("\n\n"))
+
 
 def has_all_fields(entry):
     necessary_fields = ["byr", "iyr", "eyr", "hgt", "hcl", "ecl", "pid"]
@@ -20,7 +23,7 @@ def valid_number(value, low, high):
     if not value.isdigit():
         return False
     year = int(value)
-    return year >= low and year <= high  
+    return year >= low and year <= high
 
 
 def valid_height(value):
@@ -78,10 +81,7 @@ def part2():
     count = 0
     for entry in entries:
         if has_all_fields(entry):
-            all_valid = True
-            for (field, value) in entry.items():
-                if not valid_map[field](value):
-                    all_valid = False
-            if all_valid:
+            fields_valid = [valid_map[field](value) for (field, value) in entry.items()]
+            if all(fields_valid):
                 count += 1
     print(count)

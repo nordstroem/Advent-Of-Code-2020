@@ -7,10 +7,11 @@ from days import *  # pylint: disable=unused-wildcard-import
 
 def main(argv):
     parser = argparse.ArgumentParser(description="run advent of code")
-    parser.add_argument("day", type=int, help='day')
-    parser.add_argument("part", type=int, help='part')
+    parser.add_argument("day", type=str, help='day')
+    parser.add_argument("part", type=str, help='part')
     args = parser.parse_args(argv)
-    part = getattr(sys.modules["days.day{}".format(args.day)], "part{}".format(args.part))
+    function = "test" if args.part.startswith("t") else "part{}".format(args.part)
+    part = getattr(sys.modules["days.day{}".format(args.day)], function)
     part()
 
 

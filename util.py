@@ -16,3 +16,7 @@ def count_if(container, predicate):
         if predicate(element):
             count = count + 1
     return count
+
+
+def split(line):
+    return [char for char in line]

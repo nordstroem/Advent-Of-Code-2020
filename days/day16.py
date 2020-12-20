@@ -57,3 +57,40 @@ def part1():
                 error_sum += value
 
     print(error_sum)
+
+
+def part2():
+    fields, my_ticket, tickets = parse()
+    valid_tickets = [ticket for ticket in tickets if valid_ticket(ticket, fields)]
+    invalid_positions = dict()
+    for i in range(len(my_ticket)):
+        invalid_positions[i] = set()
+
+    for ticket in valid_tickets:
+        for index, value in enumerate(ticket):
+            for field_name, field_range in fields.items():
+                if not in_range(value, field_range):
+                    invalid_positions[index].add(field_name)
+
+    valid_positions = {}
+    fields_to_check = set(fields.keys())
+    positions_to_check = set(range(len(my_ticket)))
+
+    while len(fields_to_check) > 0:
+        for field_name, field_range in fields.items():
+            if field_name in fields_to_check:
+                possible_positions = []
+                for index in positions_to_check:
+                    if field_name not in invalid_positions[index]:
+                        possible_positions.append(index)
+
+                if len(possible_positions) == 1:
+                    valid_positions[field_name] = possible_positions[0]
+                    fields_to_check.remove(field_name)
+                    positions_to_check.remove(possible_positions[0])
+
+    product = 1
+    for field in [field for field in fields.keys() if field.startswith("departure")]:
+        product *= my_ticket[valid_positions[field]]
+
+    print(product)
